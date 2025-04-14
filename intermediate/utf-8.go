@@ -45,7 +45,7 @@ func insertEvery4Bits(s string) string {
 	return out
 }
 
-func main() {
+func utf() {
 	// printUTF8Encoding("త")
 	// Try with more examples:
 	// printUTF8Encoding("😊")
