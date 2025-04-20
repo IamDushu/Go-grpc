@@ -1,11 +1,24 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 
+	pb "apiserver/proto/gen"
+
 	"google.golang.org/grpc"
 )
+
+type server struct {
+	pb.UnimplementedCalculateServer
+}
+
+func (s *server) Add(ctx context.Context, req *pb.AddRequest) (*pb.AddResponse, error) {
+	return &pb.AddResponse{
+		Sum: req.A + req.B,
+	}, nil
+}
 
 func main() {
 	port := ":50051"
@@ -17,7 +30,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 
-	//skipping something here
+	pb.RegisterCalculateServer(grpcServer, &server{})
 
 	log.Println("Server is running on port", port)
 	err = grpcServer.Serve(lis)
